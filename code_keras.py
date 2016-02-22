@@ -11,7 +11,6 @@ import numpy as np
 import pickle
 from sklearn.preprocessing import LabelBinarizer, StandardScaler
 from sklearn.metrics import log_loss
-from sklearn.linear_model import LogisticRegression
 from letor_metrics import ndcg_score
 from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, Callback
@@ -36,6 +35,7 @@ class MyEarlyStopping(Callback):
         self.patience = patience
         self.verbose = verbose
         self.wait = 0
+        self.best_epoch = 0
 
         if mode == 'min':
             self.monitor_op = np.less
@@ -78,6 +78,7 @@ class MyPReLU(MaskedLayer):
     def __init__(self, init='zero', weights=None, **kwargs):
         self.init = initializations.get(init)
         self.initial_weights = weights
+        self.alphas = None
         super(MyPReLU, self).__init__(**kwargs)
 
     def build(self):
@@ -176,7 +177,8 @@ def clf_keras(data, cl_weight=None, random_state=0, ext_name=""):
     #These two callback objects are used to stop the training at the best
     #iteration based on validation log_loss and to save that model
     es = MyEarlyStopping(monitor='val_loss', patience=30, verbose=1)
-    mch = ModelCheckpoint('save/aux_keras_model', monitor='val_loss', save_best_only=True)
+    mch = ModelCheckpoint('save/aux_keras_model', monitor='val_loss', 
+                          save_best_only=True)
     #Training the model
     if cl_weight == None:
         model.fit(XX_train, yb_train, nb_epoch=1000, batch_size=512, 
@@ -192,13 +194,15 @@ def clf_keras(data, cl_weight=None, random_state=0, ext_name=""):
     #Predicting the labels of X_valid
     y_valid_pred = model.predict_proba(XX_valid, batch_size=512, verbose=2)
     #Computing the scores
-    ndcg_ke = np.mean([ndcg_score(tr, pr, k=5) for tr, pr in zip(yb_valid.tolist(), y_valid_pred.tolist())])
+    ndcg_ke = np.mean([ndcg_score(tr, pr, k=5) for tr, pr in \
+    zip(yb_valid.tolist(), y_valid_pred.tolist())])
     logloss_ke = log_loss(y_valid, y_valid_pred)
     print ndcg_ke, logloss_ke
     
     #Saving the result
     rnd = random_state.randint(1000, 9999)
-    pickle.dump(y_valid_pred, open('save/valid/v_KE_%s_%s_%s_%s'%(ext_name, rnd, round(ndcg_ke, 4), round(logloss_ke, 4)), 'w'))
+    pickle.dump(y_valid_pred, open('save/valid/v_KE_%s_%s_%s_%s'%(ext_name, 
+                rnd, round(ndcg_ke, 4), round(logloss_ke, 4)), 'w'))
     
     ###Working on X => X_test###
     X = np.vstack((X_train, X_valid))
