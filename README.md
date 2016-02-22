@@ -27,16 +27,12 @@ There are 12 possible outcomes of the destination country: **US**, **FR**, **CA*
 The training and test sets are split by dates. In the test set, you will predict all the new users with first activities after 7/1/2014. In the sessions dataset, the data only dates back to 1/1/2014, while the users dataset dates back to 2010. 
 
 ## Data
-
-
-Due to the [*Competition Rules*][rules], the data sets can not be shared. If
-you want to take a look at the data, head over the [competition][competition]
-page and download it.
-
-[rules]: https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings/rules
+The data should be download from the [competition][data_page] website and copied into the 'data' folder. The required files are: `train_users_2.csv`, `test_users.csv` and `sessions.csv`
+[data_page]: https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings/data
 
 ## Main Ideas of this solution
 
+...TODO
 
 ## Requirements
 
@@ -50,7 +46,5 @@ To execute the code in this repository you will need the next Python packages:
 - [Keras](https://github.com/fchollet/keras)
 - [LetorMetric](https://gist.github.com/adamliesko/dddaa52c4b05b9a581b3)
 
-## Resources
-
-
 ## License
+BSD 3 clause
