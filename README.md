@@ -1,2 +1,18 @@
-# kaggle_airbnb
-Airbnb Kaggle Competition: New User Bookings
+# Airbnb Kaggle Competition: *New User Bookings*
+
+## Description
+
+
+## Data
+
+
+## Main Ideas
+
+
+## Requirements
+
+
+## Resources
+
+
+## License
