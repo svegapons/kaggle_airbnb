@@ -6,9 +6,6 @@ competition][competition]. It's written in **Python 2.7**.
 The code produces a prediction with a score around 0.88670, winner of the 3rd 
 place out of 1463 teams in the competition.
 
-The entire run can take several hours and you may run into memory
-issues with less than 8GB RAM.
-
 [competition]: https://www.kaggle.com/c/airbnb-recruiting-new-user-bookings
 
 ## Description (from competition [website][competition])
